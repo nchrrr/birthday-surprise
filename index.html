@@ -59,8 +59,21 @@
             100% { transform: translateY(-10vh); opacity: 0; }
         }
 
+        .hidden {
+    display: none;
+}
+
+.gallery {
+    padding: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
         .photo-right {
-    width: 140px;      /* 👈 ลดขนาดรูป */
+    width: 130px;      /* 👈 ลดขนาดรูป */
     height: 170px;
     object-fit: cover;
     border-radius: 16px;
@@ -74,6 +87,8 @@
     margin: 0 0 12px 0;   /* ชิดซ้าย */
 }
 
+  audio {
+    display: none;
 }
 
     </style>
@@ -86,9 +101,11 @@
     <button onclick="nextPage()">ลองกดดู 💖</button>
 
 </div>
-
-<img id="photo" src="Qr.jpg" class="photo photo-right">
-
+<br><br>
+<div id="gallery" class="gallery hidden">
+    <img id="photo" src="Qr.jpg" class="photo photo-right">
+</div>
+<br> <br>
 <audio id="music" controls>
     <source src="music.mp3.mp3" type="audio/mpeg">
 </audio>
@@ -97,10 +114,17 @@
 <script>
 function nextPage() {
     // เล่นเพลง
-    const m = document.getElementById("music");
-    m.volume = 1;
-    m.muted = false;
-    m.play();
+ const music = document.getElementById("music");
+music.volume = 0;
+music.play();
+
+let v = 0;
+const fade = setInterval(() => {
+    v += 0.05;
+    music.volume = Math.min(v, 1);
+    if (v >= 1) clearInterval(fade);
+}, 200);
+
 
     document.getElementById("photo").src = "Qr.jpg";
 
@@ -113,6 +137,12 @@ function nextPage() {
         "ขอให้เข้ามหาลัยแล้วมีเพื่อนที่ดี 🤍<br>" +
         "ตั้งใจเรียน มีหน้าที่การงานดีๆ<br>" +
         "เป็นเด็กดีของแม่กับยาย และทุกๆคน 💕";
+
+        const gallery = document.getElementById("gallery");
+    gallery.classList.remove("hidden");
+
+    gallery.scrollIntoView({
+        behavior: "smooth"})
 
     // ซ่อนปุ่ม
     document.querySelector("button").style.display = "none";
@@ -136,3 +166,4 @@ function createHeart() {
 
 </body>
 </html>
+
